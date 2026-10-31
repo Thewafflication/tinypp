@@ -1,0 +1,9 @@
+[submodule "tinycc"]
+	path = tinycc
+	url = https://github.com/Thewafflication/tinycc
+[submodule "dmc"]
+	path = dmc
+	url = https://github.com/DigitalMars/dmc/
+[submodule "wsp"]
+	path = wsp
+	url = https://github.com/Thewafflication/wsp

@@ -1,0 +1,37 @@
+{
+  "record_type": "Planning artifact verification; not compiler conformance evidence",
+  "date": "2026-10-31",
+  "status": "Pass",
+  "command": "python tools/check-planning.py",
+  "scope": {
+    "requirements": 44,
+    "controlled_test_specifications": 44,
+    "architecture_decisions": 9,
+    "wsp_dispositions": 258,
+    "externally_allocated_requirements": 9
+  },
+  "checks": [
+    "IDs and required fields",
+    "one normative shall statement per requirement",
+    "reciprocal requirement/test references",
+    "allocation consistency",
+    "local links",
+    "documentation manifest coverage",
+    "individual WSP disposition coverage"
+  ],
+  "negative_controls": {},
+  "limits": [
+    "Full capability requirements remain unverified; scalar variants are separate",
+    "Harness and analyzer qualification remain incomplete",
+    "TeX/PDF rendering not performed",
+    "Final ISO edition reconciliation pending M0",
+    "Baseline acceptance and tailoring reviews pending",
+    "External producer identity and delivery revisions pending M0"
+  ],
+  "dependency_revisions": {
+    "wsp": "5c185eb4a8819c2125182fe9b4424b2c172a69f5",
+    "tinycc": "724954021b29e2d5d1d26b67d45228907dc506b7",
+    "dmc": "9478d25a677f70dbe4fc0ed317cc5a5e5050ef8b"
+  },
+  "scope_change": "Templates and standard library owned by existing external project; M5-M7 are integration gates."
+}

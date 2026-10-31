@@ -1,0 +1,49 @@
+\documentclass[letterpaper]{article}
+\usepackage[letterpaper,margin=1in]{geometry}
+\input{wsp/testing/test-case-library.tex}
+\begin{document}
+\def\TCID{TC-0043}
+\def\TCTitle{Release matrix completeness}
+\def\TCPurpose{Verify REQ-0043: release matrix completeness.}
+\def\TCPriority{\TCPriorityHigh}
+\def\TCRequirementRef{REQ-0043}
+\def\TCDesignRef{ADR-0001 through ADR-0007 as allocated in the roadmap.}
+\def\TCFeatureRef{Release matrix completeness; milestone M8.}
+\def\TCTestTechnique{Equivalence partitioning and boundary-value analysis for
+executable variants; checklist-based review for records. Record actual
+partitions and boundaries in the fixture manifest.}
+\def\TCPreconditions{Reviewed requirement and test revision; controlled
+fixture manifest with each input, source anchor and expected observation.
+For executable checks, the candidate compiler and required runtime/linker
+must exist. Missing infrastructure is Blocked.}
+\def\TCEnvironment{Each applicable target tuple and Debug/Release build in
+STRATEGY.md; record host OS, compiler, linker, runtime, locale and tool versions.
+Record-only checks run against the exact reviewed repository revision.}
+\def\TCAssumptions{The licensed final C++98 edition and adopted defect ledger
+govern the oracle. Reference compilers are corroboration. Undefined behavior
+has no portable output oracle; unspecified behavior uses allowed-result sets.}
+\def\TCInputData{Inspect Debug/Release records for each target, including native execution architecture; missing or cross-build-only runtime evidence fails. Mark proposed ports outside the matrix rather than reporting them passed. Inputs are specified here; concrete fixture
+files and hashes are required before execution.}
+\def\TCInitialState{New isolated run directory; no stale output artifacts.
+Status is Not run until execution is attempted.}
+\def\TCProcedure{\begin{enumerate}
+\item Review the input manifest against the cases and oracle above; block
+execution if required fixture data or a standards oracle is absent.
+\item For each executable variant, invoke the driver with an argument vector
+in strict C++98 mode; capture output and status. Compile each translation unit
+separately when specified, link and run positive cases on the target.
+For record checks, inspect each listed field and retain the checklist.
+\item Evaluate each observation against the oracle, preserving individual
+variant verdicts. A crash or infrastructure error is not a successful negative
+test. Retain original failures before any rerun.
+\item Emit the execution metadata and evidence required by STRATEGY.md.
+\end{enumerate}}
+\def\TCExpectedResult{Inspect Debug/Release records for each target, including native execution architecture; missing or cross-build-only runtime evidence fails. Mark proposed ports outside the matrix rather than reporting them passed. Every specified variant must meet its
+oracle for Pass; any mismatch is Fail. Missing preconditions are Blocked;
+insufficient evidence is Inconclusive. A finite passing sample alone does not
+prove the entire associated standard clause.}
+\def\TCPostConditions{Retain input hashes, commands, diagnostics, artifacts,
+checklists and verdicts under the run identity. Delete only disposable files
+inside the isolated run directory after evidence capture.}
+\TCTemplate
+\end{document}

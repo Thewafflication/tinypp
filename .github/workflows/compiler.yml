@@ -1,0 +1,49 @@
+name: Compiler foundation
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-windows:
+    runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Configure
+        run: >-
+          cmake -S . -B output/build
+          -G "Visual Studio 17 2022" -A x64
+      - name: Build
+        run: >-
+          cmake --build output/build
+          --config ${{ matrix.configuration }}
+      - name: Verify native compiler foundation
+        run: >-
+          ctest --test-dir output/build
+          -C ${{ matrix.configuration }} --output-on-failure
+      - name: Analyze owned compiler sources
+        run: python tools/analyze.py --build output/build
+      - name: Retain tested binaries, symbols and execution records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiler-${{ matrix.configuration }}-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            output/build/${{ matrix.configuration }}/
+            output/build/runtime/${{ matrix.configuration }}/
+            output/build/evidence/${{ matrix.configuration }}/
+            output/build/Testing/
+            output/analysis/

@@ -7,3 +7,6 @@
 [submodule "wsp"]
 	path = wsp
 	url = https://github.com/Thewafflication/wsp
+[submodule "Compiler"]
+	path = Compiler
+	url = https://github.com/DigitalMars/Compiler

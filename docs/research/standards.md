@@ -60,7 +60,8 @@ adoption needs an issue ID, pinned resolution, applicability, impact and tests.
 | Component | Pinned revision | Observed assets and candidate use |
 | --- | --- | --- |
 | TinyCC | `724954021b29e2d5d1d26b67d45228907dc506b7` | tccpp.c, tccgen.c, tccpe.c, x86_64-gen.c, libtcc.c and tests: infrastructure and target-emission candidates. |
-| DMC | `9478d25a677f70dbe4fc0ed317cc5a5e5050ef8b` | bin, include, lib, src/core, src/IOS, stlport: runtime/library candidates and comparison behavior. No reusable compiler front end identified. |
+| DMC | `9478d25a677f70dbe4fc0ed317cc5a5e5050ef8b` | bin, include, lib, src/core, src/IOS, stlport: runtime/library candidates and comparison behavior. Distribution/runtime checkout; compiler source is separately pinned below. |
+| Compiler source | `69824bc4f030a2585feef1c7a9bc423d14e809ca` | DigitalMars/Compiler: C/C++ semantics and backend modules, largely in D; see [assessment](compiler-source-assessment.md). |
 | WSP | `5c185eb4a8819c2125182fe9b4424b2c172a69f5` | Process templates and tools; Git description 1.4.0-4-g5c185eb. |
 
 The local TinyCC README lists more modern backends than the older web manual.

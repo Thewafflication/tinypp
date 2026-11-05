@@ -15,13 +15,32 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def dependency_paths(root):
+    """Read configured submodule paths and require workspace containment."""
+    root = Path(root).resolve()
+    configured = subprocess.check_output([
+        "git", "config", "--file", str(root / ".gitmodules"),
+        "--get-regexp", r"^submodule\..*\.path$",
+    ], text=True)
+    paths = []
+    for line in configured.splitlines():
+        relative = line.split(None, 1)[1]
+        target = (root / relative).resolve()
+        if target == root or not target.is_relative_to(root):
+            raise ValueError(f"Submodule path escapes workspace: {relative}")
+        paths.append(target.relative_to(root).as_posix())
+    if len(paths) != len(set(paths)):
+        raise ValueError("Duplicate configured submodule path")
+    return sorted(paths)
+
+
 def source_snapshot(root):
     """Return controlled relative input names mapped to content identities."""
     root = Path(root)
     paths = [root / name for name in (
         "README.md", "CMakeLists.txt", "Doxyfile", ".gitmodules",
     )]
-    extensions = {".cpp", ".hpp", ".c", ".h", ".py", ".md", ".tex",
+    extensions = {".cpp", ".hpp", ".c", ".h", ".d", ".py", ".md", ".tex",
                   ".csv", ".json", ".yml", ".yaml", ".ps1", ".cmake"}
     for directory in ("src", "tools", "tests", "docs", ".github"):
         paths.extend(
@@ -37,7 +56,7 @@ def source_snapshot(root):
         path = root / relative
         if path.is_file():
             result[relative] = digest(path)
-    for name in ("tinycc", "dmc", "wsp"):
+    for name in dependency_paths(root):
         arguments = ["git", "-C", str(root / name)]
         revision = subprocess.check_output(arguments + ["rev-parse", "HEAD"])
         diff = subprocess.check_output(arguments + ["diff", "--binary", "HEAD"])

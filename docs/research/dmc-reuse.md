@@ -45,10 +45,12 @@ not a finding that code is portable or licensed for every intended use.
 | [include](../../dmc/include), [src/core](../../dmc/src/core) and [src/INCLUDE](../../dmc/src/INCLUDE) | C/CRT declarations and runtime implementation patterns. | Coordinate C-runtime boundary; avoid duplicating externally owned facilities. |
 | [html/ctg/CPP-Language-Implementation.html](../../dmc/html/ctg/CPP-Language-Implementation.html) | Vendor behavior, implementation choices and documented conformance gaps. | Compiler research/reference; DMC lacks export and is not the normative oracle. |
 
-No reusable C++ compiler parser/semantic front end has been identified in
-the checked-out distribution. Runtime source and a compiler executable do
-not establish that one is available. Bundled binaries are optional comparison
-tools; their ABI and target restrictions require independent checking.
+The original `dmc` distribution contains runtime/library source and optional
+comparison binaries. The separately added `Compiler` submodule now supplies
+C/C++ compiler implementation source. See the
+[compiler source assessment](compiler-source-assessment.md) for the pinned
+module map, build discrepancies and reuse gates. Availability does not yet
+establish a reusable Tiny++ adapter or standards conformance.
 
 ## Executed comparison probe
 
@@ -63,8 +65,8 @@ cannot count as an expected rejection. Exact inputs, object hashes, banner and
 process results are retained under `output/dmc-comparison/`.
 
 This is optional Windows x86 comparison evidence, not x64 execution evidence
-or a conformance result. The source parser/semantic implementation is still
-unavailable in this checkout. The probe uses DMC's default output naming in
+or a conformance result. These probes use the original distribution executable, not a build of the
+new `Compiler` source. The probe uses DMC's default output naming in
 isolated directories and does not link its objects into Tiny++ artifacts.
 
 ## Next integration work
@@ -77,7 +79,7 @@ planning change does not copy files or modify the other project.
 
 ## File-level notice inventory
 
-The [initial reuse audit](reuse-audit.csv) records 19 inspected candidate
+The [initial reuse audit](reuse-audit.csv) records 41 inspected candidate
 files, their pinned revisions, exact SHA-256 identities, observed notices,
 current use and remaining decisions. It distinguishes files built locally
 from DMC reference candidates that have not been copied or compiled.
@@ -97,3 +99,24 @@ terms. The latter contains an explicit compiled-linking exception. The
 RELICENSING contributor list is not treated as a completed blanket change.
 Runtime files with no grant in their opening comments remain unresolved;
 absence of a file header does not establish permission.
+
+## Separate compiler source added
+
+`Compiler` pins DigitalMars/Compiler at
+`69824bc4f030a2585feef1c7a9bc423d14e809ca`. Eighteen selected source files
+have been added to the notice inventory; all twenty-two have explicit Boost 1.0
+file-header grants, including D Language Foundation-owned backend files.
+This is stronger evidence than assuming the root grant covers every holder.
+An isolated adapted Win32 source build now succeeds, with ten compile-only
+and eight native comparisons passing. See the source assessment for tool
+identities, the Cent field-alias adaptation and limits. No source was imported
+into the owned compiler implementation. Template implementation
+in `dtemplate.d` remains a candidate for the external project's owner.
+
+The adapted source also emits x64 COFF for bounded C ABI probes. All 44
+current partitions pass without optimization and with target optimization.
+Late POD argument/parameter lowering and return classification address the
+recorded aggregate failures; broad ABI acceptance remains open. See the
+[source assessment](compiler-source-assessment.md) and
+[feasibility defect ledger](dmc-defects.csv) for required adaptations and
+unresolved gaps. This does not establish general x64 C++ compatibility.

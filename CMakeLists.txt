@@ -64,8 +64,19 @@ if(BUILD_TESTING)
         -NoProfile -Command "${TINYPP_STYLE_COMMAND}")
     set_tests_properties(owned-source-style PROPERTIES
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+    string(CONCAT TINYPP_DMC_STYLE_COMMAND
+        "& './wsp/tools/Test-SourceStyle.ps1' -RepositoryRoot . "
+        "-SourcePath tools -IncludeExtension .d")
+    add_test(NAME dmc-adaptation-style COMMAND "${PWSH_EXECUTABLE}"
+        -NoProfile -Command "${TINYPP_DMC_STYLE_COMMAND}")
+    set_tests_properties(dmc-adaptation-style PROPERTIES
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
     add_test(NAME planning COMMAND "${Python3_EXECUTABLE}"
         "${CMAKE_SOURCE_DIR}/tools/check-planning.py")
+    add_test(NAME semantic-signature-boundary COMMAND "${Python3_EXECUTABLE}"
+        "${CMAKE_SOURCE_DIR}/tests/test_semantic_signatures.py")
+    add_test(NAME semantic-body-boundary COMMAND "${Python3_EXECUTABLE}"
+        "${CMAKE_SOURCE_DIR}/tests/test_semantic_ir.py")
     add_test(NAME compiler-foundation COMMAND "${Python3_EXECUTABLE}"
         "${CMAKE_SOURCE_DIR}/tests/run_foundation.py"
         --compiler "$<TARGET_FILE:tinypp>"

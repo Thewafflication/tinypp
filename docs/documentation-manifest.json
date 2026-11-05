@@ -14,11 +14,7 @@
   "outputName": "tinypp-engineering-baseline.pdf",
   "files": [
     "README.md",
-    "docs/research/standards.md",
-    "docs/research/dmc-reuse.md",
-    "docs/process/wsp-adoption.md",
     "docs/ROADMAP.md",
-    "docs/architecture/README.md",
     "docs/architecture/ADR-0001.md",
     "docs/architecture/ADR-0002.md",
     "docs/architecture/ADR-0003.md",
@@ -26,6 +22,14 @@
     "docs/architecture/ADR-0005.md",
     "docs/architecture/ADR-0006.md",
     "docs/architecture/ADR-0007.md",
+    "docs/architecture/ADR-0008.md",
+    "docs/architecture/ADR-0009.md",
+    "docs/architecture/ADR-0010.md",
+    "docs/architecture/README.md",
+    "docs/architecture/semantic-handoff.md",
+    "docs/architecture/target-choices.md",
+    "docs/process/compiler-foundation.md",
+    "docs/process/wsp-adoption.md",
     "docs/requirements/README.md",
     "docs/requirements/REQ-0001.md",
     "docs/requirements/REQ-0002.md",
@@ -71,11 +75,10 @@
     "docs/requirements/REQ-0042.md",
     "docs/requirements/REQ-0043.md",
     "docs/requirements/REQ-0044.md",
-    "docs/testing/STRATEGY.md",
+    "docs/research/compiler-source-assessment.md",
+    "docs/research/dmc-reuse.md",
+    "docs/research/standards.md",
     "docs/testing/README.md",
-    "docs/architecture/ADR-0008.md",
-    "docs/process/compiler-foundation.md",
-    "docs/architecture/target-choices.md",
-    "docs/architecture/ADR-0009.md"
+    "docs/testing/STRATEGY.md"
   ]
 }

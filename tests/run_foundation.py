@@ -18,7 +18,7 @@ import uuid
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from evidence import digest, source_snapshot
+from evidence import dependency_paths, digest, source_snapshot
 
 
 def run_suite(options):
@@ -1023,7 +1023,7 @@ def run_suite(options):
         result["test_id"] for result in results
     }
     dependency_revisions = {}
-    for name in ("tinycc", "dmc", "wsp"):
+    for name in dependency_paths(options.root):
         dependency_revisions[name] = subprocess.check_output(
             ["git", "-C", str(options.root / name), "rev-parse", "HEAD"],
             text=True,

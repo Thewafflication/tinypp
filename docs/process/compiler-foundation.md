@@ -12,7 +12,7 @@ trees. Lowering is isolated in src/lowering.cpp; parsing and semantic checks
 remain in src/frontend.cpp. Shared category queries live in src/ast.cpp and
 initial translation phases in src/source.cpp. TinyCC emits the validated lowering and links native Windows x64
 executables. Build files and generated runtime artifacts stay outside the
-three dependency checkouts.
+dependency checkouts, including the separately added Compiler source.
 
 Current subset:
 
@@ -246,3 +246,31 @@ independently compiled producer/consumer units with different alias spellings.
 The provisional oracle is the later working draft's
 [namespace alias clause](https://www.open-std.org/jtc1/sc22/wg21/docs/wp/html/nov97-2/dcl.html).
 Final-edition reconciliation and the remaining lookup partitions are open.
+
+## Added compiler source baseline
+
+Evidence snapshots enumerate dependency paths from .gitmodules rather than
+assuming three fixed dependencies. Compiler-source revision, tracked changes
+and untracked file hashes now participate in start/end stability checks and
+native evidence. The new source is not linked into Tiny++ yet; the prior
+292 scalar development variants remain regression coverage for our adapter.
+See [source assessment](../research/compiler-source-assessment.md).
+
+The optional DMC investigation remains separate from the production compiler.
+Its owned late POD lowering snippet is included in controlled snapshots and
+checked by the dmc-adaptation-style CTest. The source-build helper preserves
+the dependency checkout and records guarded output-copy adaptations.
+The optional tests/pdb_inspection.cpp fixture uses the host DIA SDK to inspect
+a named function and its source lines in a PDB. Its positive and negative
+controls establish symbol-reader behavior; they do not qualify a debugger.
+
+## Experimental semantic worker entry
+
+The optional tools/compile_worker.py command now compiles supported .cpp inputs
+through DMC semantic-only bodies, owned IR lowering and TinyCC. It is separate
+from the existing tinypp scalar driver while migration coverage grows.
+See the [handoff contract](../architecture/semantic-handoff.md) for invocation,
+wire bounds, preserved outputs, retained artifacts and current language limits.
+The body-boundary CTest checks malformed CFG/type rejection; the optional real
+worker suite exercises the command and independent native results. None of
+these development variants closes a complete C++98 capability requirement.

@@ -1,12 +1,12 @@
 {
   "record_type": "Planning artifact verification; not compiler conformance evidence",
-  "date": "2026-10-31",
+  "date": "2026-11-01",
   "status": "Pass",
   "command": "python tools/check-planning.py",
   "scope": {
     "requirements": 44,
     "controlled_test_specifications": 44,
-    "architecture_decisions": 9,
+    "architecture_decisions": 10,
     "wsp_dispositions": 258,
     "externally_allocated_requirements": 9
   },
@@ -17,9 +17,23 @@
     "allocation consistency",
     "local links",
     "documentation manifest coverage",
-    "individual WSP disposition coverage"
+    "individual WSP disposition coverage",
+    "DMC feasibility defect schema, unique IDs and requirement references"
   ],
-  "negative_controls": {},
+  "negative_controls": {
+    "dmc_feasibility_ledger": {
+      "status": "Pass",
+      "cases": [
+        "duplicate ID",
+        "unknown requirement",
+        "malformed ID",
+        "empty field",
+        "wrong schema"
+      ],
+      "evidence": "output/planning-controls/1ad93e303d144786824642f0bcf84669/results.json",
+      "scope": "Ledger validation only; not compiler or ISO defect qualification"
+    }
+  },
   "limits": [
     "Full capability requirements remain unverified; scalar variants are separate",
     "Harness and analyzer qualification remain incomplete",
@@ -31,7 +45,8 @@
   "dependency_revisions": {
     "wsp": "5c185eb4a8819c2125182fe9b4424b2c172a69f5",
     "tinycc": "724954021b29e2d5d1d26b67d45228907dc506b7",
-    "dmc": "9478d25a677f70dbe4fc0ed317cc5a5e5050ef8b"
+    "dmc": "9478d25a677f70dbe4fc0ed317cc5a5e5050ef8b",
+    "Compiler": "69824bc4f030a2585feef1c7a9bc423d14e809ca"
   },
   "scope_change": "Templates and standard library owned by existing external project; M5-M7 are integration gates."
 }

@@ -15,3 +15,5 @@ All ADRs are Proposed; normal review records acceptance.
 - [ADR-0008](ADR-0008.md) — Scalar compiler feasibility implementation.
 
 - [ADR-0009](ADR-0009.md) — Qualified types and full-expression lifetimes.
+
+- [ADR-0010](ADR-0010.md) — Assess Digital Mars compiler-source reuse.

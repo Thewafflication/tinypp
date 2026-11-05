@@ -34,7 +34,7 @@ def check_reuse_audit(root):
             if key in seen:
                 errors.append(f"{label}: duplicate file")
             seen.add(key)
-            if row["component"] not in {"tinycc", "dmc"}:
+            if row["component"] not in {"tinycc", "dmc", "Compiler"}:
                 errors.append(f"{label}: unknown component")
                 continue
             base = (root / row["component"]).resolve()
@@ -49,6 +49,41 @@ def check_reuse_audit(root):
                 errors.append(f"{label}: source hash mismatch")
     if not seen:
         errors.append("Selected-file reuse audit is empty")
+    return errors
+
+
+def check_dmc_defects(root, requirements):
+    """Check feasibility records without treating them as ISO defect rulings."""
+    fields = {
+        "id", "trigger", "source_observation", "expected", "observed",
+        "adaptation_or_workaround", "disposition", "requirement_ids",
+    }
+    path = root / "docs/research/dmc-defects.csv"
+    if not path.is_file():
+        return ["Missing DMC feasibility defect ledger"]
+    errors, seen = [], set()
+    with path.open(encoding="utf-8", newline="") as stream:
+        reader = csv.DictReader(stream)
+        if set(reader.fieldnames or []) != fields:
+            return ["DMC feasibility defect schema mismatch"]
+        for row in reader:
+            if set(row) != fields or not all(row.values()):
+                errors.append("Incomplete DMC feasibility defect row")
+                continue
+            identifier = row["id"]
+            if not re.fullmatch(r"DM-(BUILD|X64)-\d{3}", identifier):
+                errors.append(f"Malformed DMC feasibility ID: {identifier}")
+            if identifier in seen:
+                errors.append(f"Duplicate DMC feasibility ID: {identifier}")
+            seen.add(identifier)
+            references = row["requirement_ids"].split(";")
+            if len(references) != len(set(references)):
+                errors.append(f"{identifier}: duplicate requirement reference")
+            for reference in references:
+                if reference not in requirements:
+                    errors.append(f"{identifier}: unknown {reference}")
+    if not seen:
+        errors.append("DMC feasibility defect ledger is empty")
     return errors
 
 
@@ -83,6 +118,7 @@ def check_planning(root):
             records[identifier] = path.read_text(encoding="utf-8")
     if not requirements or not cases:
         errors.append("Requirement or test inventory is empty")
+    errors.extend(check_dmc_defects(root, requirements))
     edges = set()
     for rid, body in requirements.items():
         for section in (
